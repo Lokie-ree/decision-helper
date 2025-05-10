@@ -1,9 +1,15 @@
-import { Authenticated, Unauthenticated, useQuery, useAction } from "convex/react";
+import {
+  Authenticated,
+  Unauthenticated,
+  useQuery,
+  useAction,
+} from "convex/react";
 import { api } from "../convex/_generated/api";
 import { SignInForm } from "./SignInForm";
 import { SignOutButton } from "./SignOutButton";
 import { Toaster, toast } from "sonner";
 import { useState } from "react";
+import { AnimatedGradientText } from "./components/magicui/animated-gradient-text";
 
 export default function App() {
   return (
@@ -26,7 +32,10 @@ function Content() {
   const loggedInUser = useQuery(api.auth.loggedInUser);
   const [question, setQuestion] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
-  const [analysis, setAnalysis] = useState<{ pros: string[]; cons: string[] } | null>(null);
+  const [analysis, setAnalysis] = useState<{
+    pros: string[];
+    cons: string[];
+  } | null>(null);
 
   const analyze = useAction(api.decisions.analyze);
   const recentDecisions = useQuery(api.decisions.listRecent) ?? [];
@@ -58,7 +67,9 @@ function Content() {
   return (
     <div className="flex flex-col gap-8">
       <div className="text-center">
-        <h1 className="text-5xl font-bold accent-text mb-4">DecisionHelper</h1>
+        <AnimatedGradientText className="text-5xl font-bold mb-4">
+          DecisionHelper
+        </AnimatedGradientText>
         <Authenticated>
           <p className="text-xl text-slate-600">
             Welcome back, {loggedInUser?.email ?? "friend"}!
@@ -76,7 +87,10 @@ function Content() {
       <Authenticated>
         <form onSubmit={handleAnalyze} className="space-y-4">
           <div>
-            <label htmlFor="question" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="question"
+              className="block text-sm font-medium text-gray-700"
+            >
               What's your decision?
             </label>
             <textarea
@@ -103,7 +117,9 @@ function Content() {
               <h3 className="font-semibold text-green-800 mb-2">Pros</h3>
               <ul className="list-disc pl-5 space-y-1">
                 {analysis.pros.map((pro, i) => (
-                  <li key={i} className="text-green-700">{pro}</li>
+                  <li key={i} className="text-green-700">
+                    {pro}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -111,7 +127,9 @@ function Content() {
               <h3 className="font-semibold text-red-800 mb-2">Cons</h3>
               <ul className="list-disc pl-5 space-y-1">
                 {analysis.cons.map((con, i) => (
-                  <li key={i} className="text-red-700">{con}</li>
+                  <li key={i} className="text-red-700">
+                    {con}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -127,7 +145,9 @@ function Content() {
                   <p className="font-medium mb-2">{decision.question}</p>
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <h4 className="text-sm font-semibold text-green-800 mb-1">Pros</h4>
+                      <h4 className="text-sm font-semibold text-green-800 mb-1">
+                        Pros
+                      </h4>
                       <ul className="list-disc pl-5 text-sm">
                         {decision.pros.map((pro, i) => (
                           <li key={i}>{pro}</li>
@@ -135,7 +155,9 @@ function Content() {
                       </ul>
                     </div>
                     <div>
-                      <h4 className="text-sm font-semibold text-red-800 mb-1">Cons</h4>
+                      <h4 className="text-sm font-semibold text-red-800 mb-1">
+                        Cons
+                      </h4>
                       <ul className="list-disc pl-5 text-sm">
                         {decision.cons.map((con, i) => (
                           <li key={i}>{con}</li>
